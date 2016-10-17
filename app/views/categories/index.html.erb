@@ -1,0 +1,21 @@
+
+	<h4></h4>
+
+
+<div class="info">
+			<table class="table table-bordered">
+				<tr>
+	                <td><h4>الصنف</h4></td>
+	                <td><h4>عدد الكتب</h4></td>
+                </tr>
+			<% @categories.each do |category|%>
+			<tbody>
+                <tr>
+	                <td><h4><%=  link_to category.name, category_books_path(category.id)%></h4></td>
+	                <td><h5><%=category.books.count%></h5></td>
+                </tr>
+            </tbody>
+            <% end %>
+			</table>
+
+		</div>

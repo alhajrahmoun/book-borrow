@@ -1,0 +1,33 @@
+     <div class="row placeholders">
+          <h2 class="sub-header">استعارات تمت الموافقة عليها </h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><center>تحكم</center></th>
+                  <th><center>تمت الموافقة؟</center></th>
+                  <th><center>مجموعة الكتاب</center></th>
+                  <th><center>صنف الكتاب</center></th>
+                  <th><center>تاريخ الاستعارة</center></th>
+                  <th><center>الكتاب</center></th>
+                  <th><center>المستعير</center></th>
+                  <th><center>#</center></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @books.each do |book|%>
+                <tr>
+                <td><center><%= link_to "إلغاء الموافقة", books_control_approval_path(id: book), data: {confirm: "are you sure?"} %></center></td>
+                  <td><center><%= book.approved %></center></td>
+                  <td><center><%= book.group %></center></td>
+                  <td><center><%= Category.find(book.category_id).name %></center></td>
+                  <td><center><%= book.borrow_date %></center></td>
+                  <td><center><%= link_to book.name, category_book_path(book.category_id, book) %></center></td>
+                  <td><center><%= link_to User.find(book.subscriber_id).name, user_path(book.subscriber_id) %></center></td>
+                  <td><center><%= book.id %></center></td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>

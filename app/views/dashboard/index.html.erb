@@ -1,0 +1,35 @@
+     <div class="row placeholders">
+          <h2 class="sub-header">المشتركين</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><center>تحكم</center></th>
+                  <th><center>تمت الموافقة؟</center></th>
+                  <th><center>مجموعة الاستعارة </center></th>
+                  <th><center>عدد مرات الاستعارة</center></th>
+                  <th><center>النقاط</center></th>
+                  <th><center>رقم الموبايل</center></th>
+                  <th><center>الاسم</center></th>
+                  <th><center>البريد الالكتروني</center></th>
+                  <th><center>#</center></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @users.each do |user|%>
+                <tr>
+                <td><center><%= link_to "عرض", user_path(user) %> | <%= link_to "تعديل", edit_user_path(user) %> | <%= link_to "حذف", user_path(user), method: :delete %></center></td>
+                  <td><center><%= user.approved %></center></td>
+                  <td><center><%= user.borrow_group %></center></td>
+                  <td><center><%= user.borrow_times %></center></td>
+                  <td><center><%= user.points %></center></td>
+                  <td><center><%= user.mobile %></center></td>
+                  <td><center><%= [user.first_name,user.last_name].join(' ') %></center></td>
+                  <td><center><%= user.email %></center></td>
+                  <td><center><%= user.id %></center></td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>

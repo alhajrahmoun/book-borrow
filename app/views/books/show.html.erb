@@ -1,0 +1,114 @@
+<div class="info">
+		<p><% if @book.subscriber_id == nil%>
+		<%= link_to "استعارة", subscribe_category_book_path(@book.category_id, @book), class: "btn btn-primary"%><% else %><%= link_to "إلغاء الاستعارة", unsubscribe_category_book_path(@book.category_id, @book), class: "btn btn-primary"%><% end %> | 
+		   <%= link_to "تعديل", edit_category_book_path(@book.category_id, @book), class: "btn btn-primary"%> | 
+		   <%= link_to "حذف", category_book_path(@book.category_id, @book), method: :delete, class: "btn btn-primary" %></p>
+			<table class="table table-bordered">
+			<tbody>
+                <tr>
+	                <td><h5>رقم الكتاب</h5></td>
+	                <td><h5><%=@book.book_id%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>عنوان الكتاب</h5></td>
+	                <td><h5><%=@book.name%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>صنف الكتاب</h5></td>
+	                <td><h5><%=@book.category.name%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>صنف الكتاب الفرعي</h5></td>
+	                <td><h5><%=@book.sub_category.name unless @book.sub_category.nil?%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>اسم المؤلف</h5></td>
+	                <td><h5><%=@book.author%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>اسم المترجم</h5></td>
+	                <td><h5><%=@book.translator%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>عدد الصفحات</h5></td>
+	                <td><h5><%=@book.num_of_pages%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>حجم الصفحة</h5></td>
+	                <td><h5><%=@book.page_size%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>مجموعة الكتاب</h5></td>
+	                <td><h5><%=@book.group%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>عدد مرات استعارة الكتاب</h5></td>
+	                <td><h5><%=@book.borrow_times%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>هل الكتاب متاح؟</h5></td>
+	                <td><h5><%=@book.available%></h5></td>
+                </tr>
+
+                <tr>
+	                <td><h5>عارض الكتاب</h5></td>
+	                <td><h5><%=@book.owner.name unless @book.owner.nil?%></h5></td>
+                </tr>
+            </tbody>
+			</table>
+		<% unless @book.available%>
+		    <hr />
+			<table class="table table-bordered">
+				<tbody>
+	                <h4>قسم الاستعارة</h4>
+	                <tr>
+		                <td><h5>المستعير</h5></td>
+		                <td><h5><%=@book.subscriber.name%></h5></td>
+	                </tr>
+
+	                 <tr>
+		                <td><h5>تاريخ الاستعارة</h5></td>
+		                <td><h5><%=@book.borrow_date%></h5></td>
+	                </tr>
+
+	                <tr>
+		                <td><h5>الموافقة على الاستعارة؟</h5></td>
+		                <td><h5><%=@book.approved%></h5></td>
+	                </tr>
+				</tbody>
+			</table>
+	    <% end %>
+
+	    <hr />
+			<table class="table table-bordered">
+			<% @book.reviews.each do |review|%>
+				<tbody>
+	                <h4>قسم المراجعات</h4>
+	                <tr>
+		                <td><h5>صاحب المراجعة</h5></td>
+		                <td><h5><%= User.find(review.user_id).name%></h5></td>
+	                </tr>
+
+	                 <tr>
+		                <td><h5>محتوى المراجعة</h5></td>
+		                <td><h5><%= review.content%></h5></td>
+	                </tr>
+
+	                <tr>
+		                <td><h5>تقييم القارئ</h5></td>
+		                <td><h5><%= review.rating %></h5></td>
+	                </tr>
+				</tbody>
+			</table>
+			<% end %>
+		</div>

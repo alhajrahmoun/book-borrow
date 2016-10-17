@@ -1,0 +1,81 @@
+<%= form_for ([@book.category, @book])do |form| %>
+<div class="form-group">
+  <h3>تعديل معلومات الكتاب</h3>
+</div>
+
+<div class="form-group">
+  <%= form.label "رقم الكتاب", class: 'exampleInputEmail1' %>
+  <%= form.text_field :book_id, class: 'form-control'  %>
+</div>
+
+<div class="form-group">
+  <%= form.label "عنوان الكتاب", class: 'exampleInputEmail1' %>
+  <%= form.text_field :name, class: 'form-control'%>
+</div>
+
+<div class="form-group">
+  <%= form.label "اسم المؤلف", class: 'exampleInputEmail1' %>
+  <%= form.text_field :author, class: 'form-control' %>
+</div>
+
+<div class="form-group">
+  <%= form.label "اسم المترجم", class: 'exampleInputEmail1' %>
+  <%= form.text_field :translator, class: 'form-control'  %>
+</div>
+
+<div class="form-group">
+  <%= form.label "عدد الصفحات", class: 'exampleInputEmail1' %>
+  <%= form.text_field :num_of_pages, class: 'form-control'  %>
+</div>
+
+<div class="form-group">
+  <%= form.label "حجم الصفحة", class: 'exampleInputEmail1' %>
+  <%= form.select :page_size, ["كبير","متوسط","صغير"], { include_blank: true }, class: "form-control"  %>
+</div>
+
+<div class="form-group">
+  <%= form.label "دار النشر", class: 'exampleInputEmail1' %>
+  <%= form.text_field :publishing_house, class: 'form-control'  %>
+</div>
+
+<div class="form-group">
+  <%= form.label "المجموعة التي ينتمي إليها", class: 'exampleInputEmail1' %>
+  <%= form.select :group, ["A","B","C"], { include_blank: true }, class: "form-control"  %>
+</div>
+
+<div class="form-group">
+  <%= form.label "متوفر؟", class: 'exampleInputEmail1' %>
+  <%= form.radio_button :available, "true"  %>
+  <%= form.label :available, "نعم"  %>
+  <%= form.radio_button :available, "false"  %>
+  <%= form.label :available, "لا"  %>
+</div>
+
+<div class="form-group">
+  <%= form.label "صنف الكتاب", class: 'exampleInputEmail1' %>
+  <%= form.select :category_id, Category.all.collect {|cat| [cat.name, cat.id]},{ include_blank: true }, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= form.label "الصنف الفرعي", class: 'exampleInputEmail1' %>
+  <%= form.autocomplete_field :sub_category_id,  autocomplete_sub_category_name_category_books_path, :id_element => '#book_sub_category_id', class: 'form-control'  %>
+</div>
+
+<div class="form-group">
+  <%= form.label "اسم العارض", class: 'exampleInputEmail1' %>
+  <%= form.autocomplete_field :owner_id,  autocomplete_user_first_name_category_books_path, :id_element => '#book_owner_id', class: 'form-control'  %>
+</div>
+
+<hr />
+
+
+<div class="form-group">
+  <%= form.label "حجز الكتاب لصالح", class: 'exampleInputEmail1' %>
+  <%= form.autocomplete_field :subscriber_id,  autocomplete_user_first_name_category_books_path, :id_element => '#book_subscriber_id', class: 'form-control'  %>
+</div>
+
+
+<div class="form-group">
+<%= form.submit "حفظ", class:'btn btn-default' %>
+</div>
+<% end %>

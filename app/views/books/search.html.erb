@@ -1,0 +1,39 @@
+<div class="row placeholders">
+          <h2 class="sub-header">تم العثور على <%= @books.count %> كتب/كتاب</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><center>تحكم</center></th>
+                  <th><center>متوفر؟</center></th>
+                  <th><center>المجموعة</center></th>
+                  <th><center>حجم الصفحة</center></th>
+                  <th><center>دار النشر</center></th>
+                  <th><center>عدد الصفحات</center></th>
+                  <th><center>المترجم</center></th>
+                  <th><center>المؤلف</center></th>
+                  <th><center>عنوان الكتاب</center></th>
+                  <th><center>رقم الكتاب</center></th>
+                  <th><center>#</center></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @books.each do |book|%>
+                <tr>
+                  <td><center><%= link_to "عرض", category_book_path(book.category_id, book) %> | <%= link_to "تعديل", edit_category_book_path(book.category_id, book) %> | <%= link_to "حذف", category_book_path(book.category_id, book), method: :delete %></center></td>
+                  <td><center><%= book.available %></center></td>
+                  <td><center><%= book.group %></center></td>
+                  <td><center><%= book.page_size %></center></td>
+                  <td><center><%= book.publishing_house %></center></td>
+                  <td><center><%= book.num_of_pages %></center></td>
+                  <td><center><%= book.translator %></center></td>
+                  <td><center><%= book.author %></center></td>
+                  <td><center><%= book.name %></center></td>
+                  <td><center><%= book.book_id %></center></td>
+                  <td><center><%= book.id %></center></td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>

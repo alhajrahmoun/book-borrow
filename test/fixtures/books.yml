@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  book_id: 1
+  name: MyString
+  author: MyString
+  translator: MyString
+  num_of_pages: 1
+  page_size: MyString
+  publishing_house: MyString
+  group: MyString
+  approved: false
+  returned_back: false
+  borrow_date: 2016-09-28
+  available: false
+
+two:
+  book_id: 1
+  name: MyString
+  author: MyString
+  translator: MyString
+  num_of_pages: 1
+  page_size: MyString
+  publishing_house: MyString
+  group: MyString
+  approved: false
+  returned_back: false
+  borrow_date: 2016-09-28
+  available: false

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  book: one
+  approved: false
+  returned_back: false
+  borrow_date: 2016-09-05
+
+two:
+  user: two
+  book: two
+  approved: false
+  returned_back: false
+  borrow_date: 2016-09-05
