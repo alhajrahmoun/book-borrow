@@ -1,5 +1,5 @@
 class Api::ReviewsController < ApplicationController
-	#before_action :authenticate_user!
+	before_action :authenticate_user!
 	before_action :check_if_approved, only: [:create]
 	def index
 		reviews = Review.where(book_id: params[:book_id]).to_json
@@ -7,7 +7,7 @@ class Api::ReviewsController < ApplicationController
 		reviews_hash.each do |review|
 			review['user_name'] = User.find(review['user_id']).name
 		end
-		render json: {reviews: [reviews_hash]}
+		render json: {reviews: reviews_hash}
 	end
 
 	def create
