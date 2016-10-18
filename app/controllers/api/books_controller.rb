@@ -1,6 +1,7 @@
 class Api::BooksController < ApplicationController
 	before_action :authenticate_user!
 	before_action :check_if_approved, only: [:subscribe]
+	
 	def show
 		category = Category.find(params[:category_id])
 		book = category.books.find(params[:id]).to_json
