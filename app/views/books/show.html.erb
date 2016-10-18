@@ -91,9 +91,9 @@
 
 	    <hr />
 			<table class="table table-bordered">
-			<% @book.reviews.each do |review|%>
 				<tbody>
 	                <h4>قسم المراجعات</h4>
+	                <% @book.reviews.each do |review|%>
 	                <tr>
 		                <td><h5>صاحب المراجعة</h5></td>
 		                <td><h5><%= User.find(review.user_id).name%></h5></td>
@@ -108,7 +108,7 @@
 		                <td><h5>تقييم القارئ</h5></td>
 		                <td><h5><%= review.rating %></h5></td>
 	                </tr>
+	                <% end %>
 				</tbody>
 			</table>
-			<% end %>
 		</div>
