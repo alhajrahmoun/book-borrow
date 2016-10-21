@@ -1,5 +1,5 @@
 class Api::ReviewsController < ApplicationController
-	#before_action :authenticate_user!
+	before_action :authenticate_user!
 	before_action :check_if_approved, only: [:create]
 	def index
 		reviews = Review.where(book_id: params[:book_id]).to_json

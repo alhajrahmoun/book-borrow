@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     get 'most_borrowed', to: 'books#most_borrowed'
     get 'books/search', to: 'books#search'
     get 'users/get_info', to: 'users#get_info'
+    get 'users/save_fcm_token', to: 'users#save_fcm_token'
   	resources :users
   	resources :categories do 
   		resources :subcategories
