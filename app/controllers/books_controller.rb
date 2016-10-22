@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  require 'fcm'
   autocomplete :sub_category, :name
   autocomplete :user, :first_name, :extra_data => [:last_name], :display_value => :name
   def index
@@ -58,6 +59,7 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     if @book.approved == false
        @book.approved = true
+       send_notification(User.find(@book.owner_id).fcm_token, @book.name)
     else
        @book.approved = false
     end
@@ -73,6 +75,7 @@ class BooksController < ApplicationController
         @book.borrow_times = @book.borrow_times + 1
         @book.approved = true
         @book.available = false
+        send_notification(User.find(@book.owner_id).fcm_token, @book.name)
         if @book.save
           redirect_to edit_category_book_path(@book.category_id, @book)
         end
@@ -95,4 +98,12 @@ class BooksController < ApplicationController
   def book_params
     params.require("book").permit(:book_id, :name, :author, :translator, :num_of_pages, :page_size, :publishing_house, :group, :available, :category_id, :sub_category_id, :owner_id, :subscriber_id)
   end
+
+  def send_notification(notification_dest, book_name)
+    fcm = FCM.new("AIzaSyC7EB-g9d49wRC-Ki7UiPy5qry0QOWw4SE")
+    registration_ids= [notification_dest] # an array of one or more client registration tokens
+    options = {notification: {body: "تم طلب الكتاب -#{book.name}- للاستعارة"}}
+    puts response = fcm.send(registration_ids, options)
+  end
+
 end

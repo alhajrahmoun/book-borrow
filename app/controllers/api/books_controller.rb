@@ -1,5 +1,4 @@
 class Api::BooksController < ApplicationController
-	require 'fcm'
 	before_action :authenticate_user!
 	before_action :check_if_approved, only: [:subscribe]
 	
@@ -21,7 +20,6 @@ class Api::BooksController < ApplicationController
 				@book.borrow_times = @book.borrow_times + 1
 				@book.available = false
 				if @book.save
-					send_notification(User.find(@book.owner_id).fcm_token)
 					render status: 200, json:{
 						message: ["book subscribed successfully"]
 					}.to_json
@@ -125,12 +123,5 @@ class Api::BooksController < ApplicationController
 					error: ["انتظر تفعيل الحساب من الإدارة"]
 				}.to_json
 	    end
- 	end
-
- 	def send_notification(notification_dest)
- 		fcm = FCM.new("AIzaSyC7EB-g9d49wRC-Ki7UiPy5qry0QOWw4SE")
- 		#registration_ids= ["12", "13"] # an array of one or more client registration tokens
-		#options = {data: {score: "123"}, collapse_key: "updated_score"}
-		response = fcm.send(notification_dest, "تم طلب الكتاب للاستعارة")
  	end
 end

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  require 'fcm'
   def new
     @user = User.new
   end
@@ -22,6 +23,7 @@ class UsersController < ApplicationController
   def control_approval
     @user = User.find(params[:id])
     @user.approved = true
+    send_notification(@user.fcm_token)
     if @user.save
       redirect_to users_need_approval_path
     end
@@ -51,6 +53,13 @@ class UsersController < ApplicationController
   private
   def user_params
     params.require("user").permit(:email, :first_name, :last_name, :gender, :birthday, :education_level, :specialization, :mobile, :current_address, :favorite_language, :favorite_book_type, :friend_name, :points, :borrow_times, :borrow_group, :approved)
+  end
+
+  def send_notification(notification_dest)
+    fcm = FCM.new("AIzaSyC7EB-g9d49wRC-Ki7UiPy5qry0QOWw4SE")
+    registration_ids= [notification_dest] # an array of one or more client registration tokens
+    options = {notification: {body: "تم تفعيل حسابك من قبل المشرف"}}
+    puts response = fcm.send(registration_ids, options)
   end
 
 end
