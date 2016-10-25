@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161021163603) do
+ActiveRecord::Schema.define(version: 20161023073959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,15 +27,15 @@ ActiveRecord::Schema.define(version: 20161021163603) do
     t.boolean  "approved"
     t.boolean  "returned_back"
     t.date     "borrow_date"
-    t.boolean  "available"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.boolean  "available",        default: true
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "category_id"
     t.integer  "sub_category_id"
     t.integer  "subscriber_id"
     t.integer  "owner_id"
     t.string   "owner_name"
-    t.integer  "borrow_times"
+    t.integer  "borrow_times",     default: 0
     t.index ["category_id"], name: "index_books_on_category_id", using: :btree
     t.index ["owner_id"], name: "index_books_on_owner_id", using: :btree
     t.index ["sub_category_id"], name: "index_books_on_sub_category_id", using: :btree
@@ -48,6 +48,25 @@ ActiveRecord::Schema.define(version: 20161021163603) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string   "content"
+    t.date     "date"
+    t.string   "title"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id", using: :btree
+  end
+
+  create_table "penalties", force: :cascade do |t|
+    t.string   "description"
+    t.integer  "points"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["user_id"], name: "index_penalties_on_user_id", using: :btree
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string   "content"
     t.integer  "user_id"
@@ -55,7 +74,6 @@ ActiveRecord::Schema.define(version: 20161021163603) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float    "rating"
-    t.float    "average"
     t.index ["book_id"], name: "index_reviews_on_book_id", using: :btree
     t.index ["user_id"], name: "index_reviews_on_user_id", using: :btree
   end
@@ -97,13 +115,14 @@ ActiveRecord::Schema.define(version: 20161021163603) do
     t.string   "favorite_book_type"
     t.string   "friend_name"
     t.integer  "points"
-    t.integer  "borrow_times"
-    t.string   "borrow_group"
+    t.integer  "borrow_times",           default: 0
+    t.string   "borrow_group",           default: "A"
     t.boolean  "approved"
     t.text     "tokens"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.string   "fcm_token"
+    t.integer  "current_round",          default: 10
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
@@ -113,6 +132,8 @@ ActiveRecord::Schema.define(version: 20161021163603) do
   add_foreign_key "books", "sub_categories"
   add_foreign_key "books", "users", column: "owner_id"
   add_foreign_key "books", "users", column: "subscriber_id"
+  add_foreign_key "notifications", "users"
+  add_foreign_key "penalties", "users"
   add_foreign_key "reviews", "books"
   add_foreign_key "reviews", "users"
   add_foreign_key "sub_categories", "categories"

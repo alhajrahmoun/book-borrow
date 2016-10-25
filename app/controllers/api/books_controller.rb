@@ -13,7 +13,8 @@ class Api::BooksController < ApplicationController
 	def subscribe
 		@book = Book.find(params[:id])
 		if @book.available
-			if current_user.borrow_group >= @book.group
+			unless current_user.current_round == 0
+				current_user.current_round = current_user.current_round - 1 
 				@book.subscriber_id = current_user.id
 				@book.borrow_date = Date.today
 				@book.approved = false
@@ -35,17 +36,15 @@ class Api::BooksController < ApplicationController
 	def unsubscribe
 		@book = Book.find(params[:id])
 		unless @book.available
-			if current_user.borrow_group >= @book.group
-				@book.subscriber_id = nil
-				@book.borrow_times = @book.borrow_times - 1 if @book.borrow_date == Date.today
-				@book.borrow_date = nil
-				@book.approved = nil
-				@book.available = true
-				if @book.save
-					render status: 200, json:{
-						message: ["book unsubscribed successfully"]
-					}.to_json
-				end
+			@book.subscriber_id = nil
+			@book.borrow_times = @book.borrow_times - 1 if @book.borrow_date == Date.today
+			@book.borrow_date = nil
+			@book.approved = nil
+			@book.available = true
+			if @book.save
+				render status: 200, json:{
+					message: ["book unsubscribed successfully"]
+				}.to_json
 			end
 		end
 	end

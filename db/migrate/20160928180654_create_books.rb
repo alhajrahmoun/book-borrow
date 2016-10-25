@@ -12,7 +12,7 @@ class CreateBooks < ActiveRecord::Migration[5.0]
       t.boolean :approved
       t.boolean :returned_back
       t.date :borrow_date
-      t.boolean :available
+      t.boolean :available, default: true
 
       t.timestamps
     end

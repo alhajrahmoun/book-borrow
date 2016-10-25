@@ -47,8 +47,8 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.0]
       t.string :favorite_book_type
       t.string :friend_name
       t.integer :points
-      t.integer :borrow_times
-      t.string :borrow_group
+      t.integer :borrow_times, :default => 0
+      t.string :borrow_group, :default => "A"
       t.boolean :approved
 
       ## Tokens

@@ -59,7 +59,8 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     if @book.approved == false
        @book.approved = true
-       send_notification(User.find(@book.owner_id).fcm_token, @book.name)
+       user = User.find(@book.owner_id)
+        send_notification(user.fcm_token, @book.name, user.id)
     else
        @book.approved = false
     end
@@ -70,12 +71,13 @@ class BooksController < ApplicationController
 
   def subscribe
     @book = Book.find(params[:id])
-    if @book.available
+    if @book.available 
         @book.borrow_date = Date.today
         @book.borrow_times = @book.borrow_times + 1
         @book.approved = true
         @book.available = false
-        send_notification(User.find(@book.owner_id).fcm_token, @book.name)
+        user = User.find(@book.owner_id)
+        send_notification(user.fcm_token, @book.name, user.id)
         if @book.save
           redirect_to edit_category_book_path(@book.category_id, @book)
         end
@@ -99,11 +101,13 @@ class BooksController < ApplicationController
     params.require("book").permit(:book_id, :name, :author, :translator, :num_of_pages, :page_size, :publishing_house, :group, :available, :category_id, :sub_category_id, :owner_id, :subscriber_id)
   end
 
-  def send_notification(notification_dest, book_name)
+  def send_notification(notification_dest, book_name, user_id)
     fcm = FCM.new("AIzaSyC7EB-g9d49wRC-Ki7UiPy5qry0QOWw4SE")
     registration_ids= [notification_dest] # an array of one or more client registration tokens
-    options = {notification: {body: "تم طلب الكتاب -#{book.name}- للاستعارة"}}
+    options = {notification: {body: "تم طلب الكتاب -#{book_name}- للاستعارة"}}
     puts response = fcm.send(registration_ids, options)
+
+    Notification.create(title: "كتاب مطلوب للاستعارة", content: "تم طلب الكتاب -#{book_name}- للاستعارة", date: Date.today, user_id: user_id)
   end
 
 end

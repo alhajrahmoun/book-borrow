@@ -77,6 +77,21 @@
                 </tr>
             </tbody>
 			</table>
+
+ 			<hr />
+			<table class="table table-bordered">
+				<tbody>
+					<% unless @user.borrowed_books.empty? %>
+		                <h4>قسم الاستعارة</h4>
+		                <% @user.borrowed_books.each do |book|%>
+		                <tr>
+			                <td><h5>اسم الكتاب</h5></td>
+			                <td><h5><%= link_to book.name, category_book_path(book.category,book)%></h5></td>
+		                </tr>
+		                <% end %>
+		            <% end %>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>

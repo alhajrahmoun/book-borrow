@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   has_many :borrowed_books, class_name: "Book", foreign_key: "subscriber_id"
   has_many :owned_books, class_name: "Book", foreign_key: "owner_id"
+  has_many :penalties
+  has_many :reviews
 
 before_validation do
   self.uid = email if uid.blank?  
@@ -17,6 +19,11 @@ before_save -> { skip_confirmation! }
 
 def name
 	[first_name,last_name].join(' ')
+end
+
+def points_calculation(ammount)
+  self.points = self.points - ammount
+  self.save
 end
 
 end

@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   get 'books/books_borrows', to: 'books#books_borrows'
   get 'books/need_approval', to: 'books#need_approval'
   get 'books/control_approval', to: 'books#control_approval'
+  resources :penalties do 
+    get :autocomplete_user_first_name, :on => :collection
+  end
   resources :users
     resources :categories do 
       resources :subcategories
@@ -30,7 +33,9 @@ Rails.application.routes.draw do
     get 'books/search', to: 'books#search'
     get 'users/get_info', to: 'users#get_info'
     get 'users/save_fcm_token', to: 'users#save_fcm_token'
-  	resources :users
+  	resources :users do 
+      resources :notifications
+    end 
   	resources :categories do 
   		resources :subcategories
       resources :books do
