@@ -64,6 +64,7 @@ class BooksController < ApplicationController
        subscriber = User.find(@book.subscriber_id)
        send_notification(user.fcm_token,subscriber.fcm_token, @book.name, user.id, subscriber.id)
     else
+       @book.available = true
        @book.approved = false
        @book.borrow_times = @book.borrow_times - 1
     end
