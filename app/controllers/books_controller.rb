@@ -61,7 +61,8 @@ class BooksController < ApplicationController
        @book.approved = true
        @book.borrow_times = @book.borrow_times + 1
        user = User.find(@book.owner_id)
-       send_notification(user.fcm_token, @book.name, user.id)
+       subscriber_id = User.find(@book.subscriber_id)
+       send_notification(user.fcm_token, @book.name, user.id, subscriber_id)
     else
        @book.approved = false
        @book.borrow_times = @book.borrow_times - 1
@@ -103,13 +104,14 @@ class BooksController < ApplicationController
     params.require("book").permit(:book_id, :name, :author, :translator, :num_of_pages, :page_size, :publishing_house, :group, :available, :category_id, :sub_category_id, :owner_id, :subscriber_id)
   end
 
-  def send_notification(notification_dest, book_name, user_id)
+  def send_notification(notification_dest, book_name, user_id, subscriber_id)
     fcm = FCM.new("AIzaSyC7EB-g9d49wRC-Ki7UiPy5qry0QOWw4SE")
     registration_ids= [notification_dest] # an array of one or more client registration tokens
     options = {notification: {body: "تم طلب الكتاب -#{book_name}- للاستعارة"}}
     puts response = fcm.send(registration_ids, options)
 
     Notification.create(title: "كتاب مطلوب للاستعارة", content: "تم طلب الكتاب -#{book_name}- للاستعارة", date: Date.today, user_id: user_id)
+    Notification.create(title: "استعارة كتاب", content: "تم حجز الكتاب -#{book_name}- للاستعارة", date: Date.today, user_id: user_id)
   end
 
 end
