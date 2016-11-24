@@ -26,4 +26,9 @@ def points_calculation(ammount)
   self.save
 end
 
+def borrow_times_increment
+  self.borrow_times = self.borrow_times + 1
+  self.save
+end
+
 end

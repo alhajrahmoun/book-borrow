@@ -22,13 +22,17 @@ class Api::BooksController < ApplicationController
 				@book.available = false
 				if @book.save
 					render status: 200, json:{
-						message: ["book subscribed successfully"]
+						message: ["تم حجز الكتاب بنجاح"]
 					}.to_json
 				end
+			else
+				render status: 401, json:{
+					error: ["لقد تجاوزت الحد المسموح به لحجز الكتب"] 
+					}.to_json
 			end
 		else
 			render status: 401, json:{
-				error: ["book is not available"] 
+				error: ["الكتاب غير متوفر"] 
 				}.to_json
 		end
 	end
