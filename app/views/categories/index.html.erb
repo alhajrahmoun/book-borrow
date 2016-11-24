@@ -7,12 +7,14 @@
 				<tr>
 	                <td><h4>الصنف</h4></td>
 	                <td><h4>عدد الكتب</h4></td>
+	                <td><h4>تحكم</h4></td>
                 </tr>
 			<% @categories.each do |category|%>
 			<tbody>
                 <tr>
 	                <td><h4><%=  link_to category.name, category_books_path(category.id)%></h4></td>
 	                <td><h5><%=category.books.count%></h5></td>
+	                <td><h5><%=link_to "إضافة كتاب جديد", new_category_book_path(category.id)%></h5></td>
                 </tr>
             </tbody>
             <% end %>

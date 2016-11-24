@@ -23,9 +23,34 @@
           <a class="navbar-brand" href="#">لوحة تحكم مشروع أعرني كتاباً</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          
+          <ul class="nav navbar-nav navbar-left">
+            <li><%= link_to "التصنيفات", categories_path %></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">المشتركين <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "عرض جميع المشتركين", root_path %></li>
+                <li><%= link_to "إضافة مشترك جديد", new_user_path%></li>
+                <li><%= link_to "مشتركين بانتظار التفعيل", users_need_approval_path %></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">تحكم بالاستعارات <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "استعارات بانتظار الموافقة", books_need_approval_path %></li>
+                <li><%= link_to "استعارات تمت الموافقة عليها", books_books_borrows_path %></li>
+                <li role="separator" class="divider"></li>
+                <li><%= link_to "بدء دورة استعارة جديدة" %></li>
+                <li><%= link_to "إيقاف عملية حجز الكتب" %></li>
+              </ul>
+            </li>
+            <li><%= link_to "إضافة مخالفة", new_penalty_path %></li>
+          </ul>
           <%= form_tag('/books/search', method: :get, class: "navbar-form navbar-right") do -%>
             <%= text_field_tag 'search', nil,placeholder: "ابحث عن كتاب", class: "form-control" %>
+          <% end %>
+
+           <%= form_tag('/users/search', method: :get, class: "navbar-form navbar-right") do -%>
+            <%= text_field_tag 'search_user', nil,placeholder: "ابحث عن مشترك", class: "form-control" %>
           <% end %>
         </div>
       </div>

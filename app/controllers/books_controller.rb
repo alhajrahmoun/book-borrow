@@ -59,12 +59,12 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     if @book.approved == false
        @book.approved = true
-       subscriber = User.find(@book.subscriber_id)
-       subscriber.borrow_times_increment
+       @book.borrow_times = @book.borrow_times + 1
        user = User.find(@book.owner_id)
        send_notification(user.fcm_token, @book.name, user.id)
     else
        @book.approved = false
+       @book.borrow_times = @book.borrow_times - 1
     end
     if @book.save
       redirect_to books_need_approval_path

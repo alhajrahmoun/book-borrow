@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'dashboard#index'
   get 'dashboard/index'
   get 'books/search', to: 'books#search'
+  get 'users/search', to: 'users#search'
   get 'users/need_approval', to: 'users#need_approval'
   get 'users/control_approval', to: 'users#control_approval'
   get 'books/books_borrows', to: 'books#books_borrows'

@@ -16,6 +16,10 @@ class UsersController < ApplicationController
     end
   end
 
+   def search
+    @users = User.search_by_name(params[:search_user])
+  end
+
   def need_approval
     @users = User.where(approved: false)
   end

@@ -14,11 +14,10 @@ class Api::BooksController < ApplicationController
 		@book = Book.find(params[:id])
 		if @book.available
 			unless current_user.current_round == 0
-				current_user.current_round = current_user.current_round - 1 
+				current_user.current_round_decrement
 				@book.subscriber_id = current_user.id
 				@book.borrow_date = Date.today
 				@book.approved = false
-				@book.borrow_times = @book.borrow_times + 1
 				@book.available = false
 				if @book.save
 					render status: 200, json:{
@@ -40,8 +39,8 @@ class Api::BooksController < ApplicationController
 	def unsubscribe
 		@book = Book.find(params[:id])
 		unless @book.available
+			current_user.current_round_increment
 			@book.subscriber_id = nil
-			@book.borrow_times = @book.borrow_times - 1 if @book.borrow_date == Date.today
 			@book.borrow_date = nil
 			@book.approved = nil
 			@book.available = true
@@ -104,13 +103,26 @@ class Api::BooksController < ApplicationController
 	end
 
 	def most_borrowed
-		most_borrowed_books = Book.order(borrow_times: "DESC").limit(15).to_a
+		if current_user.borrow_group == "A"
+			most_borrowed_books = Book.where(group: "A").order(borrow_times: "DESC").limit(15).to_a
+		elsif current_user.borrow_group == "B"
+			most_borrowed_books = Book.where(group: ['A','B']).order(borrow_times: "DESC").limit(15).to_a
+		elsif current_user.borrow_group == "C"
+			most_borrowed_books = Book.order(borrow_times: "DESC").limit(15).to_a
+		end	
 		render json: {books: most_borrowed_books}
 	end
 
 	def favorite_books
 		category_id = Category.where(name: current_user.favorite_book_type).first
-		favorite_books = Book.where(category_id: category_id).order(borrow_times: "DESC").limit(15).to_a	
+		if current_user.borrow_group == "A"
+			favorite_books = Book.where("category_id = ? AND group = ?", category_id, "A").order(borrow_times: "DESC").limit(15).to_a
+		elsif current_user.borrow_group == "B"
+			favorite_books = Book.where("category_id = ? AND group = ?", category_id,['A','B']).order(borrow_times: "DESC").limit(15).to_a
+		elsif current_user.borrow_group == "C"
+			favorite_books = Book.where(category_id: category_id).order(borrow_times: "DESC").limit(15).to_a
+		end	
+			
 		render json: {books: favorite_books}
 	end
 
