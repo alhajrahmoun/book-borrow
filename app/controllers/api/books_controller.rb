@@ -116,9 +116,9 @@ class Api::BooksController < ApplicationController
 	def favorite_books
 		category_id = Category.where(name: current_user.favorite_book_type).first
 		if current_user.borrow_group == "A"
-			favorite_books = Book.where("category_id = ? AND group = ?", category_id, "A").order(borrow_times: "DESC").limit(15).to_a
+			favorite_books = Book.where({category_id: category_id, group: "A"}).order(borrow_times: "DESC").limit(15).to_a
 		elsif current_user.borrow_group == "B"
-			favorite_books = Book.where("category_id = ? AND group = ?", category_id,['A','B']).order(borrow_times: "DESC").limit(15).to_a
+			favorite_books = Book.where({category_id: category_id, group: ['A','B']}).order(borrow_times: "DESC").limit(15).to_a
 		elsif current_user.borrow_group == "C"
 			favorite_books = Book.where(category_id: category_id).order(borrow_times: "DESC").limit(15).to_a
 		end	
