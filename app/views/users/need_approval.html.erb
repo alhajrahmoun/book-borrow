@@ -18,7 +18,7 @@
               <tbody>
               <% @users.each do |user|%>
                 <tr>
-                <td><center><%= link_to "موافقة", users_control_approval_path(id: user), data: {confirm: "are you sure?"} %></center></td>
+                <td><center><%= link_to "موافقة", users_control_approval_path(id: user), data: {confirm: "are you sure?"} %> | <%= link_to "حذف", user_path(user), method: :delete %></center></td>
                   <td><center><%= user.approved %></center></td>
                   <td><center><%= user.borrow_group %></center></td>
                   <td><center><%= user.borrow_times %></center></td>
