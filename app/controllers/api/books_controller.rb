@@ -46,7 +46,7 @@ class Api::BooksController < ApplicationController
 			@book.available = true
 			if @book.save
 				render status: 200, json:{
-					message: ["book unsubscribed successfully"]
+					message: ["تم إلغاء حجز الكتاب"]
 				}.to_json
 			end
 		end
