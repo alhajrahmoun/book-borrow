@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20161023073959) do
     t.integer  "subscriber_id"
     t.integer  "owner_id"
     t.string   "owner_name"
-    t.integer  "borrow_times",     default: 0
+    t.integer  "borrow_times",     default: 0,    null: false
     t.index ["category_id"], name: "index_books_on_category_id", using: :btree
     t.index ["owner_id"], name: "index_books_on_owner_id", using: :btree
     t.index ["sub_category_id"], name: "index_books_on_sub_category_id", using: :btree
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20161023073959) do
 
   create_table "penalties", force: :cascade do |t|
     t.string   "description"
-    t.integer  "points"
+    t.integer  "points",      null: false
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -114,9 +114,9 @@ ActiveRecord::Schema.define(version: 20161023073959) do
     t.string   "favorite_language"
     t.string   "favorite_book_type"
     t.string   "friend_name"
-    t.integer  "points"
-    t.integer  "borrow_times",           default: 0
-    t.string   "borrow_group",           default: "A"
+    t.integer  "points",                 default: 0,       null: false
+    t.integer  "borrow_times",           default: 0,       null: false
+    t.string   "borrow_group",           default: "A",     null: false
     t.boolean  "approved"
     t.text     "tokens"
     t.datetime "created_at",                               null: false
