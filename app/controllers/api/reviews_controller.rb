@@ -47,7 +47,7 @@ class Api::ReviewsController < ApplicationController
 	protected
 	def check_if_approved
 	    unless current_user.approved
-	      render json: {error: [message: "انتظر تفعيل الحساب من الإدارة"]}
+	      render json:{ error: ["انتظر تفعيل الحساب من الإدارة"] }.to_json
 	    end
  	end
 end
