@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   get 'books/books_borrows', to: 'books#books_borrows'
   get 'books/need_approval', to: 'books#need_approval'
   get 'books/control_approval', to: 'books#control_approval'
+  get 'stop_borrowing_control', to: 'books#stop_borrowing_control'
+  get 'begin_new_borrowing_control', to: 'books#begin_new_borrowing_control'
+  get 'reviews', to: 'reviews#index'
   resources :penalties do 
     get :autocomplete_user_first_name, :on => :collection
   end

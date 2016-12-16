@@ -1,0 +1,23 @@
+<table class="table table-bordered">
+				<tbody>
+					<% unless @reviews.empty?%>
+		                <h4>قسم المراجعات</h4>
+		                <% @reviews.each do |review|%>
+		                <tr>
+			                <td><h5>صاحب المراجعة</h5></td>
+			                <td><h5><%= User.find(review.user_id).name%></h5></td>
+		                </tr>
+
+		                 <tr>
+			                <td><h5>محتوى المراجعة</h5></td>
+			                <td><h5><%= review.content%></h5></td>
+		                </tr>
+
+		                <tr>
+			                <td><h5>تقييم القارئ</h5></td>
+			                <td><h5><%= review.rating %></h5></td>
+		                </tr>
+		                <% end %>
+		            <% end %>
+				</tbody>
+			</table>

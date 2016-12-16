@@ -83,7 +83,7 @@ class BooksController < ApplicationController
         @book.approved = true
         @book.available = false
         user = User.find(@book.owner_id)
-        send_notification(user.fcm_token, @book.name, user.id)
+        send_subscribe_notification(user.fcm_token, @book.name, user.id)
         if @book.save
           redirect_to edit_category_book_path(@book.category_id, @book)
         end
@@ -102,12 +102,22 @@ class BooksController < ApplicationController
         end
   end
 
+  def stop_borrowing_control
+    Book.update(available: false)
+    redirect_to root_path
+  end
+
+  def begin_new_borrowing_control
+    Book.update(available: true)
+    redirect_to root_path
+  end
+
   private
   def book_params
     params.require("book").permit(:book_id, :name, :author, :translator, :num_of_pages, :page_size, :publishing_house, :group, :available, :category_id, :sub_category_id, :owner_id, :subscriber_id)
   end
 
-  def send_notification(notification_dest, book_name, user_id)
+  def send_subscribe_notification(notification_dest, book_name, user_id)
     fcm = FCM.new("AIzaSyC7EB-g9d49wRC-Ki7UiPy5qry0QOWw4SE")
     registration_ids= [notification_dest] # an array of one or more client registration tokens
     options = {notification: {body: "تم طلب الكتاب -#{book_name}- للاستعارة"}}

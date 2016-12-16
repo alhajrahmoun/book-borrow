@@ -17,7 +17,7 @@
               <tbody>
               <% @books.each do |book|%>
                 <tr>
-                <td><center><%= link_to "موافقة", books_control_approval_path(id: book), data: {confirm: "are you sure?"} %></center></td>
+                <td><center><%= link_to "موافقة", books_control_approval_path(id: book), data: {confirm: "are you sure?"} %> | <%= link_to "إلغاء الموافقة", unsubscribe_category_book_path(category_id: book.category_id, id: book), data: {confirm: "are you sure?"} %></center></td>
                   <td><center><%= book.approved %></center></td>
                   <td><center><%= book.group %></center></td>
                   <td><center><%= Category.find(book.category_id).name %></center></td>
