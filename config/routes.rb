@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'stop_borrowing_control', to: 'books#stop_borrowing_control'
   get 'begin_new_borrowing_control', to: 'books#begin_new_borrowing_control'
   get 'reviews', to: 'reviews#index'
+  delete 'reviews/:id', to: 'reviews#destroy', as: 'review'
   resources :penalties do 
     get :autocomplete_user_first_name, :on => :collection
   end
